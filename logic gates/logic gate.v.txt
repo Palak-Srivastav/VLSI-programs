@@ -1,0 +1,102 @@
+Design code
+
+`timescale 1ns/1ps   // Define time unit and precision
+
+module tb_adders;
+
+// Declare inputs as reg (because we drive them)
+reg A, B, Cin;
+
+// Declare outputs as wire (because DUT drives them)
+wire HA_Sum, HA_Carry;
+wire FA_Sum, FA_Cout;
+
+
+//=====================================================
+// Instantiate Half Adder
+//=====================================================
+half_adder HA (
+    .A(A),               // Connect input A
+    .B(B),               // Connect input B
+    .Sum(HA_Sum),        // Connect sum output
+    .Carry(HA_Carry)     // Connect carry output
+);
+
+
+//=====================================================
+// Instantiate Full Adder
+//=====================================================
+full_adder FA (
+    .A(A),               // Connect input A
+    .B(B),               // Connect input B
+    .Cin(Cin),           // Connect carry input
+    .Sum(FA_Sum),        // Connect sum output
+    .Cout(FA_Cout)       // Connect carry output
+);
+
+
+//=====================================================
+// Test stimulus block
+//=====================================================
+initial begin
+
+    // Create waveform dump file
+    $dumpfile("dump.vcd");          // Name of waveform file
+    $dumpvars(0, tb_adders);        // Dump all signals
+
+    // Display header in console
+    $display("Time | A B Cin | HA_Sum HA_Carry | FA_Sum FA_Cout");
+
+    // Monitor changes automatically
+    $monitor("%0t | %b %b %b | %b %b | %b %b",
+             $time, A, B, Cin,
+             HA_Sum, HA_Carry,
+             FA_Sum, FA_Cout);
+
+    //-------------------------------------------------
+    // Test Half Adder (Cin irrelevant here)
+    //-------------------------------------------------
+
+    A=0; B=0; Cin=0; #10;
+    A=0; B=1; Cin=0; #10;
+    A=1; B=0; Cin=0; #10;
+    A=1; B=1; Cin=0; #10;
+
+    //-------------------------------------------------
+    // Test Full Adder (all combinations)
+    //-------------------------------------------------
+
+    A=0; B=0; Cin=1; #10;
+    A=0; B=1; Cin=1; #10;
+    A=1; B=0; Cin=1; #10;
+    A=1; B=1; Cin=1; #10;
+
+    $finish;   // End simulation
+
+end
+
+endmodule
+
+Testbench code
+
+module basic_gates(
+    input A,
+    input B,
+    output AND_out,
+    output OR_out,
+    output NOT_out,
+    output NAND_out,
+    output NOR_out,
+    output XOR_out,
+    output XNOR_out
+);
+
+assign AND_out  = A & B;
+assign OR_out   = A | B;
+assign NOT_out  = ~A;
+assign NAND_out = ~(A & B);
+assign NOR_out  = ~(A | B);
+assign XOR_out  = A ^ B;
+assign XNOR_out = ~(A ^ B);
+
+endmodule

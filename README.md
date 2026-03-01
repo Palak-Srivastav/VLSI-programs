@@ -1,4 +1,5 @@
 # VLSI-programs
+# Logic Gates Design and Verification
 # Half Adder and Full Adder Design & Verification (SystemVerilog)
 
 ## 📌 Project Overview
@@ -26,42 +27,7 @@ The objective of this project is to understand RTL modeling, module instantiatio
 
 ## 🔹 Half Adder
 
-### Logic Equations
-- Sum   = A ^ B
-- Carry = A & B
-
-### Truth Table
-
-| A | B | Sum | Carry |
-|---|---|-----|-------|
-| 0 | 0 |  0  |   0   |
-| 0 | 1 |  1  |   0   |
-| 1 | 0 |  1  |   0   |
-| 1 | 1 |  0  |   1   |
-
----
-
 ## 🔹 Full Adder
-
-### Logic Equations
-- Sum  = A ^ B ^ Cin
-- Cout = (A & B) | (B & Cin) | (A & Cin)
-
-### Truth Table
-
-| A | B | Cin | Sum | Cout |
-|---|---|-----|-----|------|
-| 0 | 0 |  0  |  0  |  0   |
-| 0 | 0 |  1  |  1  |  0   |
-| 0 | 1 |  0  |  1  |  0   |
-| 0 | 1 |  1  |  0  |  1   |
-| 1 | 0 |  0  |  1  |  0   |
-| 1 | 0 |  1  |  0  |  1   |
-| 1 | 1 |  0  |  0  |  1   |
-| 1 | 1 |  1  |  1  |  1   |
-
-
-## 🛠 Tools Used
 
 - SystemVerilog
 - EDA Playground
@@ -75,7 +41,6 @@ The objective of this project is to understand RTL modeling, module instantiatio
 4. Verify output behavior against truth tables
 
 ---
-
 ## 🎯 Learning Outcome
 
 Through this project, I gained hands-on experience in:

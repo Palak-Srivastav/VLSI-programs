@@ -1,0 +1,57 @@
+2. Register File
+
+module register_file(
+    input clk,
+    input we,
+    input [1:0] addr,
+    input [3:0] data_in,
+    output [3:0] data_out
+);
+
+reg [3:0] regfile [3:0];
+
+always @(posedge clk) begin
+    if (we)
+        regfile[addr] <= data_in;
+end
+
+assign data_out = regfile[addr];
+
+endmodule
+
+module tb_register_file;
+
+  reg clk;
+  reg we;
+  reg [1:0] addr;
+  reg [3:0] data_in;
+  wire [3:0] data_out;
+
+  register_file uut (
+      .clk(clk),
+      .we(we),
+      .addr(addr),
+      .data_in(data_in),
+      .data_out(data_out)
+  );
+
+  always #5 clk = ~clk;
+
+  initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, tb_register_file);
+
+      clk = 0;
+      we = 0;
+      addr = 2'b00;
+      data_in = 4'b0000;
+
+      #10 we = 1; addr = 2'b00; data_in = 4'b1010;
+      #10 we = 1; addr = 2'b01; data_in = 4'b1100;
+      #10 we = 0; addr = 2'b00;
+      #10 we = 0; addr = 2'b01;
+
+      #20 $finish;
+  end
+
+endmodule

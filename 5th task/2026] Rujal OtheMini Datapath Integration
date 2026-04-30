@@ -1,0 +1,68 @@
+Mini Datapath Integration
+
+module alu(
+    input [3:0] A,
+    input [3:0] B,
+    input [2:0] sel,
+    output reg [3:0] Y
+);
+
+always @(*) begin
+    case(sel)
+        3'b000: Y = A + B;
+        3'b001: Y = A - B;
+        3'b010: Y = A & B;
+        3'b011: Y = A | B;
+        3'b100: Y = A ^ B;
+        default: Y = 4'b0000;
+    endcase
+end
+
+endmodule
+
+module datapath(
+    input [3:0] A,
+    input [3:0] B,
+    input [2:0] sel,
+    output [3:0] result
+);
+
+alu u1(
+    .A(A),
+    .B(B),
+    .sel(sel),
+    .Y(result)
+);
+
+endmodule
+
+module tb_datapath;
+
+  reg [3:0] A;
+  reg [3:0] B;
+  reg [2:0] sel;
+  wire [3:0] result;
+
+  datapath uut (
+      .A(A),
+      .B(B),
+      .sel(sel),
+      .result(result)
+  );
+
+  initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, tb_datapath);
+
+      A = 4'b0110; 
+      B = 4'b0010;
+
+      sel = 3'b000; #10;
+      sel = 3'b001; #10;
+      sel = 3'b010; #10;
+      sel = 3'b011; #10;
+
+      #10 $finish;
+  end
+
+endmodule
